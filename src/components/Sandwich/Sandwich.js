@@ -9,12 +9,17 @@ sandwich.propTypes = {
 
 function sandwich(props) {
 
-    const ingredients = Object.keys(props.ingredients).map(
+    let ingredients = Object.keys(props.ingredients).map(
         type =>
             [...Array(props.ingredients[type])].map(
-                (_, qty) =>
-                    <Ingredient key={type + qty} type={type} />
+                (_, i) =>
+                    <Ingredient key={type + i} type={type} />
             ));
+
+
+    if (ingredients.map(i => i.length).reduce((total, current) => total + current) === 0) {
+        ingredients = <p>Please select one or more ingredients.</p>
+    }
 
     return (
         <div className={classes.Sandwich}>
