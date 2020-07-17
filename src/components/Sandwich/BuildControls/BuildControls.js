@@ -15,7 +15,7 @@ const buildControls = (props) => {
         <div className={classes.BuildControls}>
             <p>Price: <strong> ${props.price.toFixed(2)}</strong> </p>
             {controls.map(c => <BuildControl canRemove={props.ingredients[c.type] > 0} 
-                                ingredientHandler={ props.ingredientHandler(c.type)} 
+                                updateIngredient={ props.ingredientHandler(c.type)} 
                                 key={c.label}  
                                 name={c.label} />)}
             <button onClick={props.orderHandler} disabled={!props.orderable} className={classes.OrderButton}>ORDER IT!</button>
