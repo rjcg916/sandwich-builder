@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classes from './modal.module.css';
 import Backdrop from './Backdrop/Backdrop';
 
 const modal = (props) => {
  return <React.Fragment>
- <Backdrop show={props.show} />
+ <Backdrop clicked={props.closeModalHandler} show={props.show} />
  <div className={classes.Modal}
            style={{ transform: props.show ? 'translateY(0)' : 'translateY(-100vh)',
                      opacity: props.show ? '1' : '0'  }}>
@@ -12,5 +13,8 @@ const modal = (props) => {
     </div>
     </React.Fragment>    
 }
+modal.propTypes = {
+    closeModalHandler: PropTypes.func.isRequired
+ };
 
-export default modal
+ export default modal

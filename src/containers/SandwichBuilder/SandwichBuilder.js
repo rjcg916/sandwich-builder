@@ -26,7 +26,7 @@ class SandwichBuilder extends Component {
     }
 
 
-    modifySandwich = (ingredient) => (changeQty) => {
+    updateSandwich = (ingredient) => (changeQty) => {
         const orgQty = this.state.ingredients[ingredient];
         const requestedQty = this.state.ingredients[ingredient] + changeQty;
         const newQty = requestedQty < 0 ? 0 : requestedQty;
@@ -42,17 +42,44 @@ class SandwichBuilder extends Component {
         })
     }
 
-    ordering = () => this.state.ordering ? null : this.setState({ ordering: true });
+    updateOrderingStatus = (isOrdering) => (this.state.ordering !== isOrdering) ?
+        this.setState({ ordering: isOrdering }) : null;
+
+    placeOrder = () => {
+        alert('Placing order...');
+    }
+    
+    cancelOrder = () => {
+        this.setState({
+            ingredients:
+            {
+                'lettuce': 0,
+                'cheese': 0,
+                'meat': 0,
+            },
+            price: 4,
+            orderable: false,
+            ordering: false
+        }
+        );
+    }
 
     render() {
         return (
             <React.Fragment>
-                <Modal show={this.state.ordering}  >
+                <Modal show={this.state.ordering} closeModalHandler={() => this.updateOrderingStatus(false)} >
                     <OrderSummary ingredients={this.state.ingredients}
-                                      price={this.state.price} />
-                </Modal>      
+                        price={this.state.price} 
+                        cancelOrderHandler={() => this.updateOrderingStatus(false)}
+                        placeOrderHandler={this.placeOrder}/>
+                </Modal>
                 <Sandwich ingredients={this.state.ingredients} />
-                <BuildControls orderHandler={this.ordering} orderable={this.state.orderable} price={this.state.price} ingredients={this.state.ingredients} ingredientHandler={this.modifySandwich} />
+                <BuildControls
+                    orderHandler={() => this.updateOrderingStatus(true)}
+                    orderable={this.state.orderable}
+                    price={this.state.price}
+                    ingredients={this.state.ingredients}
+                    ingredientHandler={this.updateSandwich} />
             </React.Fragment>
         );
     }

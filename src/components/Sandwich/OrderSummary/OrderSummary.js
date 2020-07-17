@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from '../../UI/Button/Button';
 
 const orderSummary = (props) => 
         <React.Fragment>
@@ -12,11 +13,16 @@ const orderSummary = (props) =>
             </ul>
             <div>Price: ${props.price.toFixed(2)} </div>
             <p>Continue to checkout?</p>
+
+            <Button buttonType="Danger"  clicked={props.cancelOrderHandler}>CANCEL</Button>
+            <Button buttonType="Success" clicked={props.placeOrderHandler}>CONTINUE</Button>
         </React.Fragment>;
 
 orderSummary.propTypes = {
     ingredients: PropTypes.object.isRequired,
-    price: PropTypes.number.isRequired
+    price: PropTypes.number.isRequired,
+    cancelOrderHandler: PropTypes.func.isRequired,
+    placeOrderHandler: PropTypes.func.isRequired
 }
 
 export default orderSummary;

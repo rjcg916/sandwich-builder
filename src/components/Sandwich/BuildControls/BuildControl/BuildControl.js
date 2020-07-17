@@ -8,7 +8,6 @@ const buildControl = (props) => {
             <div className={classes.Label}>{props.name}</div>
             <button onClick={ () => props.ingredientHandler( 1)} className={classes.Add}>Add</button>
             <button disabled={!props.canRemove} onClick={ () => props.ingredientHandler( -1)}  className={classes.Remove}>Remove</button>
-
           </div>
     );
 };
