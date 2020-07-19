@@ -8,22 +8,24 @@ import React, { Component } from 'react';
 class Layout extends Component {
 
     state = {
-        sideDrawerOpen : true
+        sideDrawerOpen: false
     }
 
     sideDrawerHandler = () => {
-        this.setState({sideDrawerOpen: !this.state.sideDrawerOpen}) 
+        this.setState((prevState) => {
+            return { sideDrawerOpen: !prevState.sideDrawerOpen }
+        })
     }
 
     render() {
-        const appNavItems = [{ name: 'Sandwich Builder', link: '/', active: false }, 
-                             { name: 'Checkout', link: '/', active: true }];
+        const appNavItems = [{ name: 'Sandwich Builder', link: '/', active: false },
+        { name: 'Checkout', link: '/', active: true }];
         return (
             <React.Fragment>
-                <Toolbar navItems={appNavItems} />
-                <SideDrawer navItems={appNavItems} 
-                            show={this.state.sideDrawerOpen} 
-                            sideDrawerHandler={this.sideDrawerHandler} />
+                <Toolbar navItems={appNavItems} menuHandler={this.sideDrawerHandler} />
+                <SideDrawer navItems={appNavItems}
+                    show={this.state.sideDrawerOpen}
+                    sideDrawerHandler={this.sideDrawerHandler} />
                 <main className={classes.Content} >{this.props.children}</main>
             </React.Fragment>
         )
