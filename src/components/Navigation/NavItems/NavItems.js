@@ -5,7 +5,7 @@ import classes from './NavItems.module.css';
 const navItems = (props) => {
     return (
         <ul className={classes.NavItems} >
-            {props.items.map( i => 
+            {props.navItems.map( i => 
             <li className={classes.NavItem}  key={i.name} > 
             <a className={i.active ? classes.active : null} href={i.link}>{i.name}</a>
             </li>)}
@@ -14,7 +14,7 @@ const navItems = (props) => {
 };
 
 navItems.propTypes = {
-    items : PropTypes.array.isRequired
+    navItems : PropTypes.array.isRequired
 };
 
 export default navItems;

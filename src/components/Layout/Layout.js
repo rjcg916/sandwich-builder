@@ -1,13 +1,34 @@
-import React from 'react';
+
 import classes from './Layout.module.css';
 import Toolbar from '../Navigation/Toolbar/Toolbar';
+import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
+import React, { Component } from 'react';
 
 
-const layout = (props) => (
-    <React.Fragment>
-    <Toolbar />
-    <main className={classes.Content} >{props.children}</main>
-    </React.Fragment>
-);
+class Layout extends Component {
 
-export default layout;
+    state = {
+        sideDrawerOpen : true
+    }
+
+    sideDrawerHandler = () => {
+        this.setState({sideDrawerOpen: !this.state.sideDrawerOpen}) 
+    }
+
+    render() {
+        const appNavItems = [{ name: 'Sandwich Builder', link: '/', active: false }, 
+                             { name: 'Checkout', link: '/', active: true }];
+        return (
+            <React.Fragment>
+                <Toolbar navItems={appNavItems} />
+                <SideDrawer navItems={appNavItems} 
+                            show={this.state.sideDrawerOpen} 
+                            sideDrawerHandler={this.sideDrawerHandler} />
+                <main className={classes.Content} >{this.props.children}</main>
+            </React.Fragment>
+        )
+    }
+}
+
+
+export default Layout;
