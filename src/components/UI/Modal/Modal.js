@@ -1,20 +1,29 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classes from './modal.module.css';
 import Backdrop from '../Backdrop/Backdrop';
 
-const modal = (props) => {
- return <React.Fragment>
- <Backdrop clicked={props.closeModalHandler} show={props.show} />
- <div className={classes.Modal}
-           style={{ transform: props.show ? 'translateY(0)' : 'translateY(-100vh)',
-                     opacity: props.show ? '1' : '0'  }}>
-        {props.children}
-    </div>
-    </React.Fragment>    
-}
-modal.propTypes = {
-    closeModalHandler: PropTypes.func.isRequired
- };
+class Modal extends Component {
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.show !== this.props.show
+    }
 
- export default modal
+    render() {
+        return (<React.Fragment>
+            <Backdrop clicked={this.props.closeModalHandler} show={this.props.show} />
+            <div className={classes.Modal}
+                style={{
+                    transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
+                    opacity: this.props.show ? '1' : '0'
+                }}>
+                {this.props.children}
+            </div>
+        </React.Fragment>);
+    }
+}
+
+Modal.propTypes = {
+    closeModalHandler: PropTypes.func.isRequired
+};
+
+export default Modal
