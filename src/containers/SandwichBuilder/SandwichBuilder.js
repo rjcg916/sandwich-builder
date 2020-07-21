@@ -5,7 +5,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Sandwich/OrderSummary/OrderSummary';
 import OrdersService from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner'
-
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 
 const INGREDIENT_PRICES = {
     lettuce: 0.5,
@@ -16,18 +16,21 @@ const INGREDIENT_PRICES = {
 class SandwichBuilder extends Component {
 
     state = {
-        ingredients:
-        {
-            'lettuce': 0,
-            'cheese': 0,
-            'meat': 0,
-        },
+        ingredients: null,
         price: 4,
         orderable: false,
         ordering: false,
         orderSent: false
     }
 
+    componentDidMount() {
+        OrdersService.get('/ingredients.json')
+            .then(response => {
+                this.setState({ ingredients: response.data });
+            })
+            .catch( () => null) 
+
+    }
 
     updateSandwich = (ingredient) => (changeQty) => {
         const orgQty = this.state.ingredients[ingredient];
@@ -79,35 +82,14 @@ class SandwichBuilder extends Component {
 
     }
 
-    cancelOrder = () => {
-        this.setState({
-            ingredients:
-            {
-                'lettuce': 0,
-                'cheese': 0,
-                'meat': 0,
-            },
-            price: 4,
-            orderable: false,
-            ordering: false
-        }
-        );
-    }
 
     render() {
-        let orderSummary = <OrderSummary ingredients={this.state.ingredients}
-            price={this.state.price}
-            cancelOrderHandler={() => this.updateOrderingStatus(false)}
-            placeOrderHandler={this.placeOrder} />
-        if (this.state.orderSent) {
-            orderSummary = <Spinner />
-        }
-        return (
-            <React.Fragment>
-                <Modal show={this.state.ordering}
-                    closeModalHandler={() => this.updateOrderingStatus(false)} >
-                    {orderSummary}
-                </Modal>
+        let orderSummary = <Spinner />
+        let sandwich = <Spinner />
+
+        if (this.state.ingredients) {
+
+            sandwich = <React.Fragment>
                 <Sandwich ingredients={this.state.ingredients} />
                 <BuildControls
                     orderHandler={() => this.updateOrderingStatus(true)}
@@ -116,8 +98,25 @@ class SandwichBuilder extends Component {
                     ingredients={this.state.ingredients}
                     ingredientHandler={this.updateSandwich} />
             </React.Fragment>
+
+            if (!this.state.orderSent) {
+                orderSummary = <OrderSummary ingredients={this.state.ingredients}
+                    price={this.state.price}
+                    cancelOrderHandler={() => this.updateOrderingStatus(false)}
+                    placeOrderHandler={this.placeOrder} />
+            }
+        }
+
+        return (
+            <React.Fragment>
+                <Modal show={this.state.ordering}
+                    closeModalHandler={() => this.updateOrderingStatus(false)} >
+                    {orderSummary}
+                </Modal>
+                {sandwich}
+            </React.Fragment>
         );
     }
 }
 
-export default SandwichBuilder;
+export default withErrorHandler(SandwichBuilder, OrdersService);
