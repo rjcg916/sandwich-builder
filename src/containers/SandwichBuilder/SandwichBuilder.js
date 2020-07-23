@@ -7,6 +7,7 @@ import OrdersService from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 
+
 const INGREDIENT_PRICES = {
     lettuce: 0.5,
     cheese: .75,
@@ -52,7 +53,18 @@ class SandwichBuilder extends Component {
         this.setState({ ordering: isOrdering }) : null;
 
     placeOrder = () => {
-        // alert('Placing order...');
+        const queryParams = [];
+        for (let i in this.state.ingredients) {
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+        }
+        const queryString = queryParams.join('&');
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString
+        });
+
+
+  /* 
         this.setState((state, props) => {
             return { orderSent: true };
         });
@@ -75,11 +87,12 @@ class SandwichBuilder extends Component {
         OrdersService.post('/orders.json', order)
             .then(response => {
                 this.setState({ orderSent: false, ordering: false });
+
             })
             .catch(error => {
                 this.setState({ orderSent: false, ordering: false });;
             })
-
+ */
     }
 
 
