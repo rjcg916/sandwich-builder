@@ -25,7 +25,7 @@ class ContactData extends React.Component {
                 <h4>Enter your Contact Information</h4>
                 <form>
                     <input className={classes.Input} type="text" name="name" placeholder="Your Name" />
-                    <input className={classes.Input} ntype="email" name="email" placeholder="Your Email" />
+                    <input className={classes.Input} type="email" name="email" placeholder="Your Email" />
                     <input className={classes.Input} type="text" name="street" placeholder="Your Street" />
                     <input className={classes.Input} type="text" name="zip" placeholder="Your Zip Code" />  
                     <Button buttonType="Success">ORDER</Button>                       
