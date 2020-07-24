@@ -57,6 +57,7 @@ class SandwichBuilder extends Component {
         for (let i in this.state.ingredients) {
             queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
         }
+        queryParams.push("price=" +  encodeURIComponent(this.state.price));
         const queryString = queryParams.join('&');
         this.props.history.push({
             pathname: '/checkout',
@@ -64,35 +65,7 @@ class SandwichBuilder extends Component {
         });
 
 
-  /* 
-        this.setState((state, props) => {
-            return { orderSent: true };
-        });
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.price,
-            deliveryMethod: 'fastest',
-            customer: {
-                name: 'Bob',
-                address: {
-                    street: '1234 Main',
-                    zipCode: 12345,
-                    city: 'Los Alantito'
-                },
-                email: 'dfd@gmail.com'
-            }
-        }
 
-
-        OrdersService.post('/orders.json', order)
-            .then(response => {
-                this.setState({ orderSent: false, ordering: false });
-
-            })
-            .catch(error => {
-                this.setState({ orderSent: false, ordering: false });;
-            })
- */
     }
 
 
