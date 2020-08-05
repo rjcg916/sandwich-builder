@@ -18,8 +18,8 @@ class Layout extends Component {
     }
 
     render() {
-        const appNavItems = [{ name: 'Sandwich Builder', link: '/', active: false },
-        { name: 'Checkout', link: '/', active: true }];
+        const appNavItems = [   { name: 'Sandwich Builder', link: '/', active: false },
+                                { name: 'Orders', link: '/orders', active: true }];
         return (
             <React.Fragment>
                 <Toolbar navItems={appNavItems} menuHandler={this.sideDrawerHandler} />
